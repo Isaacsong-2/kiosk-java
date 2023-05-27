@@ -1,14 +1,14 @@
 package ui;
 
-import entity.Menu;
-import entity.Product;
+import entity.*;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
-import entity.Order;
 
 public class Home {
+    private Account account = new Account();
+    private SoldList soldList = new SoldList();
     private Order order = new Order();
     private ArrayList<Menu> menuList;
     private Map<String, ArrayList<Product>> productMap;
@@ -27,6 +27,9 @@ public class Home {
             displayMenu();
             inputNumber = selectMenu();
             switch(inputNumber){
+                case 0:
+                    salesRecord();
+                    break;
                 case 1: case 2: case 3: case 4:
                     displayProduct(inputNumber);
                     break;
@@ -34,7 +37,7 @@ public class Home {
                     displayOrder();
                     break;
                 case 6:
-//                    OrderDisplay orderDisplay = new OrderDisplay();
+                    cancelOrder();
                     break;
 
                 default:
@@ -84,7 +87,7 @@ public class Home {
         System.out.println();
 
         int inputNumber = selectMenu();
-        Product selectedProduct = products.get(inputNumber);
+        Product selectedProduct = products.get(inputNumber-1);
         String line = String.format("\"%-15s | W %5d | %s\"", selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getDetail());
         System.out.println(line);
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
@@ -106,7 +109,10 @@ public class Home {
         System.out.println("1. 주문      2. 메뉴판");
         int inputNumber = selectMenu();
         if (inputNumber == 1) {
+            account.accountIncrease(order.getTotalPrice());
+            soldList.addSoldList(order.getProducts());
             order.removeOrder();
+
             System.out.println("주문이 완료되었습니다!");
             System.out.println();
             String line = String.format("대기번호는 [ %d ] 번 입니다.", order.orderNum++);
@@ -118,5 +124,29 @@ public class Home {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void cancelOrder() {
+        System.out.println("진행하던 주문을 취소하시겠습니까?");
+        System.out.println("1. 확인        2. 취소");
+        int inputNumber = selectMenu();
+        if (inputNumber == 1){
+            System.out.println("진행하던 주문이 취소되었습니다.");
+            order.removeOrder();
+        }
+    }
+
+    private void salesRecord() {
+        System.out.println("[ 총 판매금액 현황 ]");
+        String line = String.format("현재까지 총 판매된 금액은 [ W %d ] 입니다.", account.getTotalSale());
+        System.out.println(line);
+        System.out.println();
+        System.out.println("[ 총 판매상품 목록 현황 ]");
+        System.out.println("현재까지 총 판매된 상품 목록은 아래와 같습니다.");
+        System.out.println();
+        soldList.getProducts().forEach(((product, quantity) -> {
+            System.out.println(String.format("- %-15s | W %5d | %d", product.getName(), product.getPrice(), quantity));
+        }));
+        System.out.println("1. 돌아가기");
     }
 }

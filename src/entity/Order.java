@@ -23,14 +23,14 @@ public class Order {
         }
     }
 
-    public String getTotalPrice() {
+    public Integer getTotalPrice() {
         Integer total = 0;
         for (Map.Entry<Product, Integer> product : products.entrySet()) {
             int price = product.getKey().getPrice();
             int quantity = product.getValue();
             total += price*quantity;
         }
-        return total.toString();
+        return total;
     }
 
     public void showOrder(){
@@ -47,5 +47,9 @@ public class Order {
 
     public void removeOrder(){
         this.products = new HashMap<>();
+    }
+
+    public Map<Product, Integer> getProducts() {
+        return products;
     }
 }

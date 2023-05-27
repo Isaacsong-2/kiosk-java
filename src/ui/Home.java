@@ -1,16 +1,18 @@
 package ui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Home {
-    ArrayList<Menu> menuList = new ArrayList<Menu>();
+    private ArrayList<Menu> menuList;
+    private Map<String, ArrayList<Product>> productMap;
     private Scanner scanner;
 
-    public Home(ArrayList<Menu> menuList){
+    public Home(ArrayList<Menu> menuList, Map<String, ArrayList<Product>> productMap){
         this.scanner = new Scanner(System.in);
         this.menuList = menuList;
+        this.productMap = productMap;
     }
 
     public void show(){
@@ -19,7 +21,24 @@ public class Home {
         while(true){
             displayMenu();
             inputNumber = selectMenu();
+            switch(inputNumber){
+                case 1: case 2: case 3: case 4:
+                    String categoryName = menuList.get(inputNumber-1).getName();
+                    ProductDisplay orderDisplay = new ProductDisplay(categoryName, productMap.get(categoryName));
+                    orderDisplay.show();
+                    break;
 
+                case 5:
+//                    OrderDisplay orderDisplay = new OrderDisplay();
+                    break;
+
+                case 6:
+//                    OrderDisplay orderDisplay = new OrderDisplay();
+                    break;
+
+                default:
+                    System.out.println("Choose again!");
+            }
         }
     }
 

@@ -9,7 +9,7 @@ import java.util.Map;
 public class Kiosk {
     private void startKiosk(){
         ArrayList<Menu> menuList = generateMenu();
-        Map<String,ArrayList<Product>> productMap = generateProduct(menuList);
+        Map<String, ArrayList<Product>> productMap = generateProduct(menuList);
         Home home = new Home(menuList, productMap);
         home.show();
     }

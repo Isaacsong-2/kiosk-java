@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Home {
-    private Account account = new Account();
-    private SoldList soldList = new SoldList();
-    private Order order = new Order();
+    private Account account;
+    private SoldList soldList;
+    private Order order;
     private ArrayList<Menu> menuList;
     private Map<String, ArrayList<Product>> productMap;
     private Scanner scanner;
@@ -18,6 +18,9 @@ public class Home {
         this.scanner = new Scanner(System.in);
         this.menuList = menuList;
         this.productMap = productMap;
+        account = new Account();
+        soldList = new SoldList();
+        order = new Order();
     }
 
     public void show(){
@@ -54,6 +57,7 @@ public class Home {
     }
 
     private void displayMenu() {
+        System.out.println("------------------------------------------------");
         System.out.println("\"SHAKESHACK BURGER 에 오신걸 환영합니다.\"");
         System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.");
         System.out.println();
@@ -68,12 +72,14 @@ public class Home {
         System.out.println("Additional Options:");
         System.out.println("5. Order       | 장바구니를 확인 후 주문합니다.");
         System.out.println("6. Cancel      | 진행중인 주문을 취소합니다.");
+        System.out.println("------------------------------------------------");
     }
 
     private void displayProduct(int id){
         String categoryName = menuList.get(id-1).getName();
         ArrayList<Product> products = productMap.get(categoryName);
 
+        System.out.println("------------------------------------------------");
         System.out.println("\"SHAKESHACK BURGER 에 오신걸 환영합니다.\"");
         System.out.println("아래 상품판을 보시고 상품을 골라 입력해주세요.");
         System.out.println();
@@ -85,6 +91,7 @@ public class Home {
             System.out.println(line);
         }
         System.out.println();
+        System.out.println("------------------------------------------------");
 
         int inputNumber = selectMenu();
         Product selectedProduct = products.get(inputNumber-1);
@@ -92,6 +99,8 @@ public class Home {
         System.out.println(line);
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
+        System.out.println("------------------------------------------------");
+
         inputNumber = selectMenu();
         if (inputNumber == 1){
             order.addProduct(selectedProduct);
@@ -100,6 +109,7 @@ public class Home {
     }
 
     private void displayOrder(){
+        System.out.println("------------------------------------------------");
         System.out.println("아래와 같이 주문 하시겠습니까?");
         System.out.println();
         System.out.println("[ Orders ]");
@@ -107,6 +117,8 @@ public class Home {
         System.out.println();
 
         System.out.println("1. 주문      2. 메뉴판");
+        System.out.println("------------------------------------------------");
+
         int inputNumber = selectMenu();
         if (inputNumber == 1) {
             account.accountIncrease(order.getTotalPrice());
@@ -127,8 +139,12 @@ public class Home {
     }
 
     private void cancelOrder() {
+        System.out.println("------------------------------------------------");
+
         System.out.println("진행하던 주문을 취소하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
+        System.out.println("------------------------------------------------");
+
         int inputNumber = selectMenu();
         if (inputNumber == 1){
             System.out.println("진행하던 주문이 취소되었습니다.");
@@ -137,16 +153,18 @@ public class Home {
     }
 
     private void salesRecord() {
+        System.out.println("------------------------------------------------");
         System.out.println("[ 총 판매금액 현황 ]");
         String line = String.format("현재까지 총 판매된 금액은 [ W %d ] 입니다.", account.getTotalSale());
         System.out.println(line);
-        System.out.println();
+        System.out.println("------------------------------------------------");
         System.out.println("[ 총 판매상품 목록 현황 ]");
         System.out.println("현재까지 총 판매된 상품 목록은 아래와 같습니다.");
         System.out.println();
         soldList.getProducts().forEach(((product, quantity) -> {
             System.out.println(String.format("- %-15s | W %5d | %d", product.getName(), product.getPrice(), quantity));
         }));
+        System.out.println("------------------------------------------------");
         System.out.println("1. 돌아가기");
     }
 }

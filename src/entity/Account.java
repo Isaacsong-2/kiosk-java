@@ -7,7 +7,7 @@ public class Account {
         this.totalSale = 0;
     }
 
-    public void accountIncrease(int sale){
+    public void increaseTotalSale(int sale){
         this.totalSale += sale;
     }
 

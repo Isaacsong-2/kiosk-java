@@ -13,21 +13,13 @@ public class Order {
     }
 
     public void addProduct(Product product) {
-        if(!products.containsKey(product)){
-            products.put(product, 1);
-        }else {
-            products.put(product, products.get(product) + 1);
-        }
+        products.compute(product, (p, quantity) -> quantity == null ? 1 : quantity + 1);
     }
 
     public Integer getTotalPrice() {
-        Integer total = 0;
-        for (Map.Entry<Product, Integer> product : products.entrySet()) {
-            int price = product.getKey().getPrice();
-            int quantity = product.getValue();
-            total += price*quantity;
-        }
-        return total;
+        return products.entrySet().stream()
+                .mapToInt(entry -> entry.getKey().getPrice() * entry.getValue())
+                .sum();
     }
 
     public void showOrder(){
@@ -43,7 +35,7 @@ public class Order {
     }
 
     public void removeOrder(){
-        this.products = new HashMap<>();
+        products.clear();
     }
 
     public Map<Product, Integer> getProducts() {

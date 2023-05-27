@@ -7,16 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Kiosk {
+
+    public static void main(String[] args) {
+        Kiosk kiosk = new Kiosk();
+        kiosk.startKiosk();
+    }
     private void startKiosk(){
         ArrayList<Menu> menuList = generateMenu();
         Map<String, ArrayList<Product>> productMap = generateProduct(menuList);
         Home home = new Home(menuList, productMap);
         home.show();
-    }
-
-    public static void main(String[] args) {
-        Kiosk kiosk = new Kiosk();
-        kiosk.startKiosk();
     }
 
     private ArrayList<Menu> generateMenu(){

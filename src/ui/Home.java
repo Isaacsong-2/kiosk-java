@@ -121,7 +121,7 @@ public class Home {
 
         int inputNumber = selectMenu();
         if (inputNumber == 1) {
-            account.accountIncrease(order.getTotalPrice());
+            account.increaseTotalSale(order.getTotalPrice());
             soldList.addSoldList(order.getProducts());
             order.removeOrder();
 

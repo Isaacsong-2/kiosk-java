@@ -10,16 +10,9 @@ public class SoldList {
         this.products = new HashMap<>();
     }
 
-    public void addSoldList(Map<Product, Integer> addedProducts){
-        for (Map.Entry<Product, Integer> entry : addedProducts.entrySet()){
-            Product product = entry.getKey();
-            int quantity = entry.getValue();
-            if(!products.containsKey(product)){
-                products.put(product, quantity);
-            }else {
-                products.put(product, products.get(product) + quantity);
-            }
-        }
+    public void addSoldList(Map<Product, Integer> addedProducts) {
+        addedProducts.forEach((product, quantity) ->
+                products.merge(product, quantity, Integer::sum));
     }
 
     public Map<Product, Integer> getProducts() {

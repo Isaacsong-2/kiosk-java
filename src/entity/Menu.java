@@ -26,4 +26,9 @@ public class Menu {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%-10s | %s", name, detail);
+    }
 }

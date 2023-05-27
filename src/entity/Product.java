@@ -1,4 +1,4 @@
-package ui;
+package entity;
 
 public class Product extends Menu{
     private int price;

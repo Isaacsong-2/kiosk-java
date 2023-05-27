@@ -1,5 +1,7 @@
 package ui;
 
+import entity.Product;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -26,7 +28,17 @@ public class ProductDisplay {
             System.out.println(line);
         }
         System.out.println();
+
         int inputNumber = selectMenu();
+        Product selectedProduct = products.get(inputNumber);
+        String line = String.format("\"%-15s | W %5d | %s\"", selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getDetail());
+        System.out.println(line);
+        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+        System.out.println("1. 확인        2. 취소");
+        inputNumber = selectMenu();
+        if (inputNumber == 1){
+
+        }
     }
 
     private int selectMenu() {

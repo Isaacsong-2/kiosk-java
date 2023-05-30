@@ -28,7 +28,7 @@ public class Home {
 
         while(true){
             displayMenu(); // 초기 메뉴화면
-            inputNumber = selectMenu();
+            inputNumber = selectMenu(0, 6);
             switch(inputNumber){
                 case 0:
                     salesRecord(); // 판매기록 조회
@@ -42,18 +42,27 @@ public class Home {
                 case 6:
                     cancelOrder(); // 현재 진행중인 주문 취소
                     break;
-
-                default:
-                    System.out.println("Choose again!");
             }
         }
     }
 
-    private int selectMenu() {
-        System.out.print("Select : ");
-        int menuNumber = scanner.nextInt();
-        scanner.nextLine(); // 버프를 비우기 위함.
-        return menuNumber;
+    private int selectMenu(int minNum, int maxNum) {
+        while(true) {
+            System.out.print("Select : ");
+            String line = scanner.nextLine();
+            Integer menuNumber = Integer.MAX_VALUE;
+            try {
+                menuNumber = Integer.parseInt(line);
+            } catch (NumberFormatException e) {
+                System.out.println("입력을 확인하세요");
+                continue;
+            }
+            if (menuNumber > maxNum || menuNumber < minNum) {
+                System.out.println("숫자를 확인해주세요");
+                continue;
+            }
+            return menuNumber;
+        }
     }
 
     private void displayMenu() {
@@ -93,7 +102,7 @@ public class Home {
         System.out.println();
         System.out.println("------------------------------------------------");
 
-        int inputNumber = selectMenu();
+        int inputNumber = selectMenu(1, products.size());
         Product selectedProduct = products.get(inputNumber-1); // product list중 선택한 product
         String line = String.format("\"%-15s | W %5d | %s\"", selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getDetail());
         System.out.println(line);
@@ -101,7 +110,7 @@ public class Home {
         System.out.println("1. 확인        2. 취소");
         System.out.println("------------------------------------------------");
 
-        inputNumber = selectMenu();
+        inputNumber = selectMenu(1, 2);
         if (inputNumber == 1){
             order.addProduct(selectedProduct); // 선택한 product를 장바구니(order)에 추가
             System.out.println(selectedProduct.getName()+" 가 장바구니에 추가되었습니다.");
@@ -129,7 +138,7 @@ public class Home {
         System.out.println("1. 주문      2. 메뉴판");
         System.out.println("------------------------------------------------");
 
-        int inputNumber = selectMenu();
+        int inputNumber = selectMenu(1, 2);
         if (inputNumber == 1) {
             soldAmount.increaseTotalSale(order.getTotalPrice()); // 총 판매금액에 현재 장바구니에 담겨진 상품들의 총 금액을 더해줌
             soldList.addSoldList(order.getProducts()); // 판매목록에 현재 장바구니에 담겨진 상품들을 추가
@@ -156,7 +165,7 @@ public class Home {
         System.out.println("1. 확인        2. 취소");
         System.out.println("------------------------------------------------");
 
-        int inputNumber = selectMenu();
+        int inputNumber = selectMenu(1, 2);
         if (inputNumber == 1){
             System.out.println("진행하던 주문이 취소되었습니다.");
             order.removeOrder(); // 주문취소(장바구니 비우기)

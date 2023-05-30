@@ -13,8 +13,8 @@ public class Kiosk {
         kiosk.startKiosk();
     }
     private void startKiosk(){
-        ArrayList<Menu> menuList = generateMenu();
-        Map<String, ArrayList<Product>> productMap = generateProduct(menuList);
+        ArrayList<Menu> menuList = generateMenu(); // menu생성
+        Map<String, ArrayList<Product>> productMap = generateProduct(menuList); // product생성
         Home home = new Home(menuList, productMap);
         home.show();
     }

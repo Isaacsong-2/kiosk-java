@@ -9,7 +9,7 @@ public class Order {
     private Map<Product, Integer> products;
 
     public Order() {
-        this.orderNum = 1;
+        this.orderNum = 1; // 초기 주문번호 1
         this.products = new HashMap<>();
     }
 
@@ -20,13 +20,13 @@ public class Order {
 
     public Integer getTotalPrice() {
         return products.entrySet().stream()
-                .mapToInt(entry -> entry.getKey().getPrice() * entry.getValue())
+                .mapToInt(entry -> entry.getKey().getPrice() * entry.getValue()) // 장바구니 내의 상품들을 순회하며 (상품가격 * 개수)를 더해서 총합을 반환
                 .sum();
     }
 
     public void removeOrder(){
         products.clear();
-    }
+    } // map clear (장바구니 비우기)
 
     public int getOrderNum() {
         return orderNum;

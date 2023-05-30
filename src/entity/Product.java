@@ -11,13 +11,4 @@ public class Product extends Menu{
     public int getPrice() {
         return price;
     }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%-10s | W %5d | %s", getName(), getPrice(), getDetail());
-    }
 }

@@ -15,20 +15,7 @@ public class Menu {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDetail() {
         return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%-10s | %s", name, detail);
     }
 }

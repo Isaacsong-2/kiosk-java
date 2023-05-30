@@ -1,9 +1,9 @@
 package entity;
 
-public class Account {
+public class SoldAmount {
     private int totalSale;
 
-    public Account(){
+    public SoldAmount(){
         this.totalSale = 0;
     }
 

@@ -3,11 +3,12 @@ package ui;
 import entity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Home {
-    private Account account;
+    private SoldAmount soldAmount;
     private SoldList soldList;
     private Order order;
     private ArrayList<Menu> menuList;
@@ -18,7 +19,7 @@ public class Home {
         this.scanner = new Scanner(System.in);
         this.menuList = menuList;
         this.productMap = productMap;
-        account = new Account();
+        soldAmount = new SoldAmount();
         soldList = new SoldList();
         order = new Order();
     }
@@ -113,7 +114,17 @@ public class Home {
         System.out.println("아래와 같이 주문 하시겠습니까?");
         System.out.println();
         System.out.println("[ Orders ]");
-        order.showOrder();
+        Map<Product, Integer> orderedProducts = order.getProducts();
+        for (Map.Entry<Product, Integer> entry : orderedProducts.entrySet()) {
+            Product product = entry.getKey();
+            int quantity = entry.getValue();
+            String line = String.format("%-15s | W %5d | %3d | %s", product.getName(), product.getPrice(), quantity,product.getDetail());
+            System.out.println(line);
+        }
+        System.out.println();
+        System.out.println("[ Total ]");
+        System.out.println("W " + order.getTotalPrice() + "원");
+//        order.showOrder();
         System.out.println();
 
         System.out.println("1. 주문      2. 메뉴판");
@@ -121,13 +132,14 @@ public class Home {
 
         int inputNumber = selectMenu();
         if (inputNumber == 1) {
-            account.increaseTotalSale(order.getTotalPrice());
+            soldAmount.increaseTotalSale(order.getTotalPrice());
             soldList.addSoldList(order.getProducts());
             order.removeOrder();
 
             System.out.println("주문이 완료되었습니다!");
             System.out.println();
-            String line = String.format("대기번호는 [ %d ] 번 입니다.", order.orderNum++);
+            String line = String.format("대기번호는 [ %d ] 번 입니다.", order.getOrderNum());
+            order.setOrderNum(order.getOrderNum()+1);
             System.out.println(line);
             System.out.println("3초후 메뉴판으로 돌아갑니다.");
             try {
@@ -155,7 +167,7 @@ public class Home {
     private void salesRecord() {
         System.out.println("------------------------------------------------");
         System.out.println("[ 총 판매금액 현황 ]");
-        String line = String.format("현재까지 총 판매된 금액은 [ W %d ] 입니다.", account.getTotalSale());
+        String line = String.format("현재까지 총 판매된 금액은 [ W %d ] 입니다.", soldAmount.getTotalSale());
         System.out.println(line);
         System.out.println("------------------------------------------------");
         System.out.println("[ 총 판매상품 목록 현황 ]");
